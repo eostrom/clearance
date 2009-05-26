@@ -32,6 +32,10 @@ class ClearanceUpdateUsers < ActiveRecord::Migration
   end
   
   def self.down
+<% new_indexes.each do |each| -%>
+    <%= each.last.sub(/^add_index/, 'remove_index') %>
+<% end -%>
+
     change_table(:users) do |t|
 <% unless columns.empty? -%>
       t.remove <%= columns.collect { |each| ":#{each.first}" }.join(',') %>
